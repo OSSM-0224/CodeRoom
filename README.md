@@ -107,7 +107,7 @@ server/
 ## Clone Repository
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/OSSM-0224/CodeRoom
 ```
 
 ---
@@ -141,13 +141,13 @@ npm run dev
 Backend
 
 ```
-PORT=
+PORT= port number   
 
-MONGODB_URI=
+MONGODB_URI= MongoDb Cluster URL
 
-REDIS_URL=
+REDIS_URL= redis URL
 
-CLIENT_URL=
+CLIENT_URL= Client url
 ```
 
 Frontend
