@@ -1,0 +1,23 @@
+import mongoose from "mongoose";
+
+const documentSchema = new mongoose.Schema(
+    {
+        roomId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Room",
+            required: true,
+        },
+
+        content: {
+            type: String,
+            default: "",
+        },
+    },
+    {
+        timestamps: true,
+    }
+);
+
+const documentModel = mongoose.model("Document", documentSchema);
+
+export default documentModel
