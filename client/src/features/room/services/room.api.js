@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { axiosInstace } from "../../../services/axios";
 import { useEditorApi } from "../../editor/services/editor.api";
 

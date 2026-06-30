@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router";
 import CodeEditor from "../components/CodeEditor";
 import StatusBar from "../components/StatusBar";
 import Toolbar from "../components/Toolbar";

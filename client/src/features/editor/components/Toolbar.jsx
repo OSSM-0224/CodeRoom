@@ -1,7 +1,7 @@
 import { Code2, LogOut, Share2, Wifi } from "lucide-react";
 import { useMemo } from "react";
 import CopyButton from "../../../components/common/CopyButton";
-import { showInfo, showSuccess } from "../../../utils/toast";
+import {toast} from "react-toastify";
 
 function Toolbar({ roomCode, handleLeaveRoom, connected = true, roomName = "Shared Room" }) {
   const shareText = useMemo(() => `Join CodeRoom with code ${roomCode}`, [roomCode]);
@@ -9,10 +9,10 @@ function Toolbar({ roomCode, handleLeaveRoom, connected = true, roomName = "Shar
   const handleShare = async () => {
     if (navigator.share) {
       await navigator.share({ title: "CodeRoom", text: shareText });
-      showInfo("Invite link shared");
+      toast.info("Invite link shared");
       return;
     }
-    showSuccess("Room code ready to share");
+    toast.success("Room code ready to share");
   };
 
   return (

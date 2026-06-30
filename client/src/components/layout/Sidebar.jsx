@@ -1,5 +1,5 @@
 import { Code2, Compass, History, LayoutGrid, LogOut, Users } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 
 const links = [
   { to: "/", label: "Home", icon: LayoutGrid },

@@ -1,9 +1,14 @@
-function App() {
+import React from 'react'
+import AppRoutes from './routes/AppRoutes'
+import {ToastContainer} from "react-toastify";
+
+const App = () => {
   return (
     <>
-      <h1>HELLO WORLD</h1>
+      <AppRoutes/>
+      <ToastContainer/>
     </>
-  );
+  )
 }
 
-export default App;
+export default App
