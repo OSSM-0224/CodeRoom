@@ -85,7 +85,7 @@ function JoinRoom() {
 
                 <button
                     type="submit"
-                    className="w-full rounded-full bg-gradient-to-r from-blue-300 to-blue-600 py-4 text-lg font-bold text-slate-900 transition-all duration-300 hover:scale-[1.02]"
+                    className="w-full rounded-full bg-linear-to-r from-blue-300 to-blue-600 py-4 text-lg font-bold text-slate-900 transition-all duration-300 hover:scale-[1.02]"
                 >
                     Join Session
                 </button>

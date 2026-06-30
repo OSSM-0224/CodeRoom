@@ -1,7 +1,8 @@
 import http from "http";
-import app from "./app.js"
+import app from "./app.js";
 import env from "./config/env.config.js";
 import connectMongoDB from "./database/mongodb.js";
+import initializeSocket from "./socket/index.js";
 import { Server } from "socket.io";
 import initializeSocket from "./socket/index.js";
 
@@ -25,5 +26,5 @@ const startServer = async () => {
     console.error(err);
   }
 };
-
+initializeSocket();
 startServer();

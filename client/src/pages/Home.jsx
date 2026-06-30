@@ -5,7 +5,7 @@ import Features from "../components/layout/Feature";
 
 function Home() {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-[#071223] via-[#0B1428] to-[#10244A] text-white">
+        <div className="min-h-screen bg-linear-to-br from-[#071223] via-[#0B1428] to-[#10244A] text-white">
 
             {/* Navbar */}
             <nav className="flex items-center justify-between border-b border-slate-800 px-8 py-5">

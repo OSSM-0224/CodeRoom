@@ -31,7 +31,7 @@ function Features() {
     ];
 
     return (
-        <section className="mx-auto mt-24 px-3 w-[1000px]">
+        <section className="mx-auto mt-24 w-full max-w-5xl px-3">
 
             <div className="mb-12 text-center">
 

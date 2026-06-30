@@ -244,11 +244,50 @@ function CodeEditor({ code, setCode, roomId, username }) {
                         },
                     }}
                 />
-
-            </div>
-
+              ) : null}
+            </button>
+          ))}
+          <button onClick={addFile} className="rounded-lg p-2 hover:bg-slate-700">
+            <Plus className="h-4 w-4 text-gray-400" />
+          </button>
         </div>
-    );
+
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 rounded-lg border border-slate-700 bg-[#0F172A] px-3 py-1">
+            <span className="text-xs uppercase text-gray-400">Language</span>
+            <select value={currentFile?.language || language} onChange={(event) => changeLanguage(event.target.value)} className="bg-transparent text-sm text-white outline-none">
+              <option value="javascript">JavaScript</option>
+              <option value="typescript">TypeScript</option>
+              <option value="python">Python</option>
+              <option value="cpp">C++</option>
+              <option value="java">Java</option>
+            </select>
+            <ChevronDown className="h-4 w-4 text-gray-400" />
+          </div>
+        </div>
+      </div>
+
+      <div className="flex-1 overflow-hidden">
+        <Editor
+          height="100%"
+          theme="vs-dark"
+          language={currentFile?.language || language}
+          value={currentFile?.content ?? ""}
+          onChange={updateContent}
+          options={{
+            fontSize: 15,
+            minimap: { enabled: false },
+            automaticLayout: true,
+            scrollBeyondLastLine: false,
+            roundedSelection: true,
+            cursorBlinking: "smooth",
+            wordWrap: "on",
+            padding: { top: 20 },
+          }}
+        />
+      </div>
+    </div>
+  );
 }
 
 export default CodeEditor;
