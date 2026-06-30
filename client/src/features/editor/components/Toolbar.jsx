@@ -1,10 +1,4 @@
-import {
-    Code2,
-    Copy,
-    Share2,
-    LogOut,
-    Wifi,
-} from "lucide-react";
+import { Code2, Copy, Share2, LogOut, Wifi } from "lucide-react";
 
 function Toolbar({
     roomCode,
