@@ -1,5 +1,6 @@
 import { Router } from "express";
 import roomRouter from "./room.routes.js";
+import documentRoute from "./document.routes.js";
 const router = Router();
 router.get("/", (req, res) => {
   res.json({
@@ -9,6 +10,7 @@ router.get("/", (req, res) => {
 });
 
 router.use("/room", roomRouter)
+router.use("/document", documentRoute)
 
 
 export default router;
