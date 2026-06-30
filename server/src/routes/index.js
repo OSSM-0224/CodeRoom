@@ -1,4 +1,5 @@
 import { Router } from "express";
+import roomRouter from "./room.routes.js";
 const router = Router();
 router.get("/", (req, res) => {
   res.json({
@@ -6,5 +7,8 @@ router.get("/", (req, res) => {
     message: "API Running",
   });
 });
+
+router.use("/room", roomRouter)
+
 
 export default router;
