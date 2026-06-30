@@ -4,7 +4,6 @@ import env from "./config/env.config.js";
 import connectMongoDB from "./database/mongodb.js";
 import initializeSocket from "./socket/index.js";
 import { Server } from "socket.io";
-import initializeSocket from "./socket/index.js";
 
 const server = http.createServer(app);
 export const io = new Server(server, {
