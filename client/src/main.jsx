@@ -7,9 +7,9 @@ import './index.css';
 import { store } from './app/store.js';
 import AppRoutes from './routes/AppRoutes.jsx';
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <AppRoutes/>
     <ToastContainer />
-  </Provider>
+  </Provider>,
 );

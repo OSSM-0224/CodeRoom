@@ -9,9 +9,30 @@ import errorHandler from "./middlewares/error.middleware.js";
 
 const app = express();
 
+const normalizeOrigin = (origin) => {
+  if (!origin || typeof origin !== "string") return origin;
+  return origin.endsWith("/") ? origin.slice(0, -1) : origin;
+};
+
+const allowedOrigins = [
+  normalizeOrigin(env.CLIENT_URL),
+  normalizeOrigin(process.env.CLIENT_URL_2),
+  ...(process.env.CLIENT_URLS || "")
+    .split(",")
+    .map((url) => normalizeOrigin(url.trim()))
+    .filter(Boolean),
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: env.CLIENT_URL,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      const normalizedOrigin = normalizeOrigin(origin);
+      if (allowedOrigins.includes(normalizedOrigin)) {
+        return callback(null, true);
+      }
+      return callback(new Error(`CORS origin denied: ${origin}`));
+    },
     credentials: true,
   }),
 );
