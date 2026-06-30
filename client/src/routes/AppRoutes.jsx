@@ -1,16 +1,23 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
 import Home from "../pages/Home";
-import EditorPage from "../features/editor/pages/EditorPage.new";
+import EditorPage from "../features/editor/pages/EditorPage";
+import { RouterProvider } from "react-router";
 
-const AppRoutes = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/editor/:roomId",
-    element: <EditorPage />,
-  },
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Home />,
+    },
+    {
+        path: "/editor/:roomId",
+        element: <EditorPage />,
+    },
 ]);
+
+const AppRoutes = () => {
+  return (
+    <RouterProvider router={router} />
+  )
+}
 
 export default AppRoutes;

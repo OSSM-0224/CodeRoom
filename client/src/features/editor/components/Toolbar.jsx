@@ -1,11 +1,30 @@
+<<<<<<< HEAD
 import { Code2, Copy, Share2, LogOut, Wifi } from "lucide-react";
+=======
+import {
+    Code2,
+    Copy,
+    Share2,
+    LogOut,
+    Wifi,
+} from "lucide-react";
+import { Code2, LogOut, Share2, Wifi } from "lucide-react";
+import { useMemo } from "react";
+import CopyButton from "../../../components/common/CopyButton";
+import {toast} from "react-toastify";
+>>>>>>> ace61525ad170d6616bb968df38b9fccad42ee9d
 
-function Toolbar({
-    roomCode,
-    handleLeaveRoom,
-    participants,
-    connected,
-}) {
+function Toolbar({ roomCode, handleLeaveRoom, connected = true, roomName = "Shared Room" }) {
+  const shareText = useMemo(() => `Join CodeRoom with code ${roomCode}`, [roomCode]);
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      await navigator.share({ title: "CodeRoom", text: shareText });
+      toast.info("Invite link shared");
+      return;
+    }
+    toast.success("Room code ready to share");
+  };
 
     return (
         <header className="flex h-16 items-center justify-between border-b border-slate-700 bg-[#111827] px-6">
