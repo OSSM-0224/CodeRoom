@@ -1,17 +1,20 @@
 import { axiosInstace } from "../../../services/axios";
 
-
 export const useEditorApi = () => {
+  const getDocumentData = async (roomId) => {
+    const { data } = await axiosInstace.get(`/document/${roomId}`);
+    return data?.data ?? null;
+  };
 
-    const getDocumentData = async (roomId, roomCode) => {
+  const updateDocument = async (roomId, payload) => {
+    const { data } = await axiosInstace.patch(`/document/${roomId}`, payload);
+    return data?.data ?? null;
+  };
 
-        const resp = await axiosInstace(`/document/${roomId}`);
+  return {
+    getDocumentData,
+    updateDocument,
+  };
+};
 
-        return { resp, roomCode }
-    };
-
-
-    return {
-        getDocumentData
-    }
-}
+export default useEditorApi;
