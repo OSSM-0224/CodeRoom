@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
-import { roomApi } from "../services/room.api";
+import { useRoomApi } from "../services/room.api";
 
 
 
 export const useCreateRoomHook = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
-    const { createRoomApi } = roomApi();
+    const { createRoomApi } = useRoomApi();
 
     const createRoomData = async (data) => {
         await createRoomApi(data);
@@ -29,7 +29,7 @@ export const useJoinRoomHook = () => {
         formState: { errors },
     } = useForm();
 
-    const { joinRoomApi } = roomApi()
+    const { joinRoomApi } = useRoomApi()
 
     const joinRoomData = (data) => {
         joinRoomApi(data)
