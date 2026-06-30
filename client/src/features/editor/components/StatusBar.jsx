@@ -1,69 +1,27 @@
-import {
-    Code2,
-    Users,
-    Wifi,
-    Clock3,
-    CheckCircle2,
-    Save,
-} from "lucide-react";
+import { Clock3, Save, Users, Wifi } from "lucide-react";
 
-function StatusBar({ handleSave, participants }) {
+function StatusBar({ handleSave, participants = [], status = "Connected", lineCount = 1 }) {
     return (
-        <footer className="flex h-10 items-center justify-between border-t border-slate-700 bg-[#0F172A] px-4 text-xs text-gray-300">
-
-            {/* Left */}
+        <footer className="flex h-12 items-center justify-between border-t border-slate-700 bg-[#0F172A] px-4 text-xs text-gray-300">
             <div className="flex items-center gap-6">
-
-                <button
-                    onClick={handleSave}
-                    className="flex items-center gap-2 rounded-md bg-[#57F287] px-3 py-1 text-black"
-                >
+                <button onClick={handleSave} className="flex items-center gap-2 rounded-md bg-[#57F287] px-3 py-1 text-black transition hover:bg-[#45df72]">
                     <Save className="h-4 w-4" />
                     Save
                 </button>
-
                 <div className="flex items-center gap-2">
                     <Users className="h-4 w-4 text-blue-400" />
-                    <span>{participants.length} Participants</span>
+                    <span>{participants.length} participants</span>
                 </div>
-
                 <div className="flex items-center gap-2">
                     <Clock3 className="h-4 w-4 text-yellow-400" />
-                    <span>120 ms</span>
+                    <span>{lineCount} lines</span>
                 </div>
-
                 <div className="flex items-center gap-2">
                     <Wifi className="h-4 w-4 text-green-400" />
-                    <span className="font-medium text-green-400">
-                        Connected
-                    </span>
+                    <span className="font-medium text-green-400">{status}</span>
                 </div>
-
             </div>
-
-            {/* Right */}
-
-            <div className="flex items-center gap-6">
-
-                <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-blue-400" />
-                    <span>{participants.length} Participants</span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                    <Clock3 className="h-4 w-4 text-yellow-400" />
-                    <span>120 ms</span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                    <Wifi className="h-4 w-4 text-green-400" />
-                    <span className="font-medium text-green-400">
-                        Connected
-                    </span>
-                </div>
-
-            </div>
-
+            <div className="text-slate-400">Live collaboration ready</div>
         </footer>
     );
 }
