@@ -11,10 +11,11 @@ export const createRoomService = async ({ name, hostname }) => {
   await documentService.createDocumentForRoom(room._id);
   return room;
 };
-export const joinRoomService = async ({ roomCode, username }) => {
+export const joinRoomService = async ({ roomCode, username, socketId }) => {
   return await roomRepository.joinRoom({
     roomCode,
     username,
+    socketId
   });
 };
 

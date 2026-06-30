@@ -20,7 +20,6 @@ export const createRoom = async ({ name, hostname }) => {
 
   return room;
 };
-
 export const joinRoom = async ({ roomCode, username, socketId }) => {
 
   const room = await roomModel.findOne({ roomCode });
@@ -32,20 +31,20 @@ export const joinRoom = async ({ roomCode, username, socketId }) => {
     username,
   });
 
-  if (existingParticipant) throw new ApiError(400, "Room Already exist")
+  if (existingParticipant) {
+    throw new ApiError(400, "Participant already exists");
+  }
 
   const participant = await participantModel.create({
     username,
-    socketId: "socket-test-123",
+    socketId,
     roomId: room._id,
   });
 
   return {
-    room, participant
-  }
-
-
-  return room;
+    room,
+    participant,
+  };
 };
 
 // repositories/participant.repository.js

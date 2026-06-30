@@ -1,0 +1,10 @@
+export const USER_JOINED = "USER_JOINED";
+export const USER_LEFT = "USER_LEFT";
+export const USER_TYPING = "USER_TYPING";
+export const USER_STOPPED_TYPING = "USER_STOPPED_TYPING";
+
+export const JOIN_ROOM = "JOIN_ROOM";
+export const LEAVE_ROOM = "LEAVE_ROOM";
+export const CLOSE_ROOM = "CLOSE_ROOM";
+
+export const PARTICIPANTS_UPDATED = "PARTICIPANTS_UPDATED";
