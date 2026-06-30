@@ -5,12 +5,10 @@ import {
     LogOut,
     Wifi,
 } from "lucide-react";
-import { useState } from "react";
 
 
-function Toolbar() {
+function Toolbar({ roomCode, handleLeaveRoom }) {
 
-    const [roomCode, setRoomCode] = useState("hello");
 
 
     return (
@@ -73,7 +71,7 @@ function Toolbar() {
                     <Share2 className="h-5 w-5" />
                 </button>
 
-                <button className="rounded-lg border border-red-500/50 p-2 text-red-400 transition hover:bg-red-500 hover:text-white">
+                <button onClick={() => handleLeaveRoom()} className="rounded-lg border border-red-500/50 p-2 text-red-400 transition hover:bg-red-500 hover:text-white">
                     <LogOut className="h-5 w-5" />
                 </button>
 

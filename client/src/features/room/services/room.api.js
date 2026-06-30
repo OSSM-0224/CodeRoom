@@ -10,15 +10,23 @@ export const useRoomApi = () => {
     const { getDocumentData } = useEditorApi()
 
     const createRoomApi = async (data) => {
-        let resp = await axiosInstace.post("/room/createroom", data)
+        let resp = await axiosInstace.post("/room/createRoom", data)
         return resp
     };
 
     const joinRoomApi = async (data) => {
-        let resp = await axiosInstace.post("/room/joinroom", data)
-        navigate(`/editor/${resp.data.data.room._id}`);
+        let resp = await axiosInstace.post("/room/joinRoom", data)
+        navigate(`/editor/${resp.data.data.room._id}`,
+            {
+                state: {
+                    username: data.username,
+                    roomId: resp.data.data.room._id,
+                    roomCode: resp.data.data.room.roomCode,
+                },
+            }
+        );
         getDocumentData(resp.data.data.room._id)
-        console.log(resp)
+
         return resp
     }
 

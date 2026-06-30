@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import { getDocumentController, patchDocumentController } from '../controllers/document.controller.js';
 
-const documentRoute = Router();
+const documentRoutes = Router();
 
 
-documentRoute.get("/:roomId", getDocumentController);
-documentRoute.patch("/:roomId", patchDocumentController);
+documentRoutes.get("/:roomId", getDocumentController);
+documentRoutes.patch("/:roomId", patchDocumentController);
 
 
-export default documentRoute
+export default documentRoutes

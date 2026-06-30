@@ -17,3 +17,11 @@ export const joinRoomService = async ({ roomCode, username }) => {
     username,
   });
 };
+
+// services/participant.service.js
+
+
+export const getParticipants = async (roomId) => {
+  return await roomRepository.getParticipantsByRoom(roomId);
+};
+
