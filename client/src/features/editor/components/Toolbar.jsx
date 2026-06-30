@@ -1,74 +1,92 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Copy, Check, Save } from "lucide-react";
-import { setLanguage } from "../slice/editorSlice";
+import {
+    Code2,
+    Copy,
+    Share2,
+    LogOut,
+    Wifi,
+} from "lucide-react";
+import { useState } from "react";
 
-/**
- * Toolbar
- * --------
- * Top bar above the editor surface.
- * - Copy Room Code: clipboard helper so participants can invite others.
- * - Language Dropdown: UI-only per spec (does not run a linter/compiler,
- *   just tags the document's language for syntax-highlighting purposes —
- *   actual highlighting can be layered on later if a code-editor library
- *   is swapped in).
- * - Save Indicator: reflects the same `status` driven by useEditor.
- *
- * Undo is intentionally NOT implemented here (marked optional in spec) —
- * left as a clearly scoped future addition so it doesn't block delivery.
- */
-const LANGUAGES = ["javascript", "python", "java", "cpp", "typescript", "go"];
 
-const Toolbar = ({ roomCode, language, status }) => {
-  const dispatch = useDispatch();
-  const [copied, setCopied] = useState(false);
+function Toolbar() {
 
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(roomCode);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch (error) {
-      // Clipboard API can fail in insecure contexts (non-HTTPS); fail silently
-      // in UI, this is non-critical functionality.
-    }
-  };
+    const [roomCode, setRoomCode] = useState("hello");
 
-  const handleLanguageChange = (event) => {
-    dispatch(setLanguage(event.target.value));
-  };
 
-  return (
-    <div className="flex items-center justify-between px-3 py-2 bg-zinc-800 border-b border-zinc-700 text-sm">
-      <div className="flex items-center gap-3">
-        <button
-          onClick={handleCopy}
-          className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-700 hover:bg-zinc-600 transition-colors"
-          title="Copy room code"
-        >
-          {copied ? <Check size={14} /> : <Copy size={14} />}
-          <span>{copied ? "Copied" : roomCode}</span>
-        </button>
+    return (
+        <header className="flex h-16 items-center justify-between border-b border-slate-700 bg-[#111827] px-6">
 
-        <select
-          value={language}
-          onChange={handleLanguageChange}
-          className="bg-zinc-700 hover:bg-zinc-600 rounded-md px-2 py-1 outline-none cursor-pointer"
-        >
-          {LANGUAGES.map((lang) => (
-            <option key={lang} value={lang}>
-              {lang}
-            </option>
-          ))}
-        </select>
-      </div>
+            {/* Left */}
+            <div className="flex items-center gap-8">
 
-      <div className="flex items-center gap-1.5 text-zinc-400">
-        <Save size={14} />
-        <span>{status === "saved" ? "Saved" : "Saving..."}</span>
-      </div>
-    </div>
-  );
-};
+                <div className="flex items-center gap-2">
+
+                    <Code2 className="h-7 w-7 text-[#57F287]" />
+
+                    <div>
+
+                        <h1 className="text-xl font-bold text-[#57F287]">
+                            CodeRoom
+                        </h1>
+
+                        <p className="text-xs text-gray-400">
+                            Collaborative Editor
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div className="hidden md:block">
+
+                    <h2 className="text-sm font-semibold text-white">
+                        Frontend Squad
+                    </h2>
+
+                    <p className="text-xs text-gray-400">
+                        Room Code : {roomCode}
+                    </p>
+
+                </div>
+
+            </div>
+
+            {/* Right */}
+
+            <div className="flex items-center gap-3">
+
+                <div className="hidden items-center gap-2 rounded-full bg-green-500/10 px-3 py-1 md:flex">
+
+                    <Wifi className="h-4 w-4 text-green-400" />
+
+                    <span className="text-xs font-medium text-green-400">
+                        Connected
+                    </span>
+
+                </div>
+
+                <button className="rounded-lg border border-slate-600 p-2 transition hover:border-[#57F287] hover:text-[#57F287]">
+                    <Copy className="h-5 w-5" />
+                </button>
+
+                <button className="rounded-lg border border-slate-600 p-2 transition hover:border-blue-400 hover:text-blue-400">
+                    <Share2 className="h-5 w-5" />
+                </button>
+
+                <button className="rounded-lg border border-red-500/50 p-2 text-red-400 transition hover:bg-red-500 hover:text-white">
+                    <LogOut className="h-5 w-5" />
+                </button>
+
+                <img
+                    src="https://i.pravatar.cc/100"
+                    alt=""
+                    className="h-10 w-10 rounded-full border-2 border-[#57F287]"
+                />
+
+            </div>
+
+        </header>
+    );
+}
 
 export default Toolbar;

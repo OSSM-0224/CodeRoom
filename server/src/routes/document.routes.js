@@ -1,12 +1,11 @@
-import { Router } from "express";
-import documentController from "../controllers/document.controller.js";
+import { Router } from 'express';
+import { getDocumentController, patchDocumentController } from '../controllers/document.controller.js';
 
-const router = Router();
+const documentRoute = Router();
 
-// GET /api/document/:roomId -> fetch latest document on join
-router.get("/:roomId", documentController.getDocument);
 
-// PATCH /api/document/:roomId -> explicit full save / language change
-router.patch("/:roomId", documentController.updateDocument);
+documentRoute.get("/:roomId", getDocumentController);
+documentRoute.patch("/:roomId", patchDocumentController);
 
-export default router;
+
+export default documentRoute

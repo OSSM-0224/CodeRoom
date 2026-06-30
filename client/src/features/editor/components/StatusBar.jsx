@@ -1,53 +1,60 @@
-import React, { useEffect, useState } from "react";
-import { getSocket } from "../../../socket/socket";
+import {
+    Code2,
+    Users,
+    Wifi,
+    Clock3,
+    CheckCircle2,
+} from "lucide-react";
 
-/**
- * StatusBar
- * ----------
- * Bottom bar showing: Connected/Disconnected, Saved/Unsaved, Typing, and
- * the current line count. `status` and `lineCount` come from useEditor
- * (Redux-backed); socket connection state is tracked locally here since
- * it's purely a transport-layer concern, not document state.
- */
-const StatusBar = ({ status, lineCount }) => {
-  const [isConnected, setIsConnected] = useState(false);
+function StatusBar() {
+    return (
+        <footer className="flex h-10 items-center justify-between border-t border-slate-700 bg-[#0F172A] px-4 text-xs text-gray-300">
 
-  useEffect(() => {
-    const socket = getSocket();
-    setIsConnected(socket.connected);
+            {/* Left */}
 
-    const handleConnect = () => setIsConnected(true);
-    const handleDisconnect = () => setIsConnected(false);
+            <div className="flex items-center gap-6">
 
-    socket.on("connect", handleConnect);
-    socket.on("disconnect", handleDisconnect);
+                <div className="flex items-center gap-2">
+                    <Code2 className="h-4 w-4 text-[#57F287]" />
+                    <span>JavaScript</span>
+                </div>
 
-    return () => {
-      socket.off("connect", handleConnect);
-      socket.off("disconnect", handleDisconnect);
-    };
-  }, []);
+                <div>
+                    Ln 42, Col 12
+                </div>
 
-  const statusLabel =
-    status === "typing" ? "Typing..." : status === "saved" ? "Saved" : "Unsaved";
+                <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-green-400" />
+                    <span>Saved</span>
+                </div>
 
-  return (
-    <div className="flex items-center justify-between px-3 py-1.5 bg-zinc-800 border-t border-zinc-700 text-xs text-zinc-400">
-      <div className="flex items-center gap-4">
-        <span className="flex items-center gap-1.5">
-          <span
-            className={`h-2 w-2 rounded-full ${
-              isConnected ? "bg-green-500" : "bg-red-500"
-            }`}
-          />
-          {isConnected ? "Connected" : "Disconnected"}
-        </span>
-        <span>{statusLabel}</span>
-      </div>
+            </div>
 
-      <span>Lines: {lineCount}</span>
-    </div>
-  );
-};
+            {/* Right */}
+
+            <div className="flex items-center gap-6">
+
+                <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4 text-blue-400" />
+                    <span>3 Participants</span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                    <Clock3 className="h-4 w-4 text-yellow-400" />
+                    <span>120 ms</span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                    <Wifi className="h-4 w-4 text-green-400" />
+                    <span className="font-medium text-green-400">
+                        Connected
+                    </span>
+                </div>
+
+            </div>
+
+        </footer>
+    );
+}
 
 export default StatusBar;

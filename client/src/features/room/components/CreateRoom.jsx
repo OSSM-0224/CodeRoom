@@ -10,14 +10,34 @@ function CreateRoom() {
         createRoomData, } = useCreateRoomHook()
 
     return (
-        <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg">
-            <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">
-                Create Room
-            </h2>
-            <form onSubmit={handleSubmit(createRoomData)}>
+        <div className="w-full max-w-md rounded-3xl border border-slate-700 bg-[#1B2433] p-8 shadow-2xl">
 
-                <div className="mb-4">
-                    <label className="mb-2 block text-sm font-medium text-gray-700">
+            <div className="mb-8 flex items-center justify-between">
+
+                <div className="flex items-center gap-3">
+                    <div className="text-3xl">🚀</div>
+
+                    <h2 className="text-3xl font-bold text-[#57F287]">
+                        Create a Room
+                    </h2>
+                </div>
+
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#2D3748] bg-[#222D3F] text-2xl text-[#57F287]">
+                    +
+                </div>
+
+            </div>
+
+            <form
+                onSubmit={handleSubmit(createRoomData)}
+                className="space-y-6"
+            >
+
+                {/* Room Name */}
+
+                <div>
+
+                    <label className="mb-2 block text-xs font-semibold uppercase tracking-[3px] text-gray-400">
                         Room Name
                     </label>
 
@@ -30,22 +50,26 @@ function CreateRoom() {
                             },
                         })}
                         type="text"
-                        placeholder="Enter room name"
-                        className={`w-full rounded-lg border px-4 py-3 outline-none transition-all duration-300 ${errors.name
-                            ? "border-red-500 focus:border-red-500"
-                            : "border-gray-300 focus:border-blue-500"
+                        placeholder="e.g. Frontend-Squad"
+                        className={`w-full rounded-xl border bg-[#111827] px-4 py-4 text-white placeholder:text-gray-500 outline-none transition-all duration-300
+                    ${errors.name
+                                ? "border-red-500"
+                                : "border-[#2D3748] focus:border-[#57F287]"
                             }`}
                     />
 
-                    <p
-                        className={`overflow-hidden text-sm text-red-500 transition-all duration-300 ${errors.name ? "mt-2 max-h-10 opacity-100" : "max-h-0 opacity-0"
-                            }`}
-                    >
-                        {errors.name?.message}
-                    </p>
+                    {errors.name && (
+                        <p className="mt-2 text-sm text-red-400">
+                            {errors.name.message}
+                        </p>
+                    )}
                 </div>
-                <div className="mb-6">
-                    <label className="mb-2 block text-sm font-medium text-gray-700">
+
+                {/* Host Name */}
+
+                <div>
+
+                    <label className="mb-2 block text-xs font-semibold uppercase tracking-[3px] text-gray-400">
                         Host Name
                     </label>
 
@@ -58,28 +82,37 @@ function CreateRoom() {
                             },
                         })}
                         type="text"
-                        placeholder="Enter your name"
-                        className={`w-full rounded-lg border px-4 py-3 outline-none transition-all duration-300 ${errors.hostname
-                            ? "border-red-500 focus:border-red-500"
-                            : "border-gray-300 focus:border-blue-500"
+                        placeholder="your_dev_handle"
+                        className={`w-full rounded-xl border bg-[#111827] px-4 py-4 text-white placeholder:text-gray-500 outline-none transition-all duration-300
+                    ${errors.hostname
+                                ? "border-red-500"
+                                : "border-[#2D3748] focus:border-[#57F287]"
                             }`}
                     />
 
-                    <p
-                        className={`overflow-hidden text-sm text-red-500 transition-all duration-300 ${errors.hostname ? "mt-2 max-h-10 opacity-100" : "max-h-0 opacity-0"
-                            }`}
-                    >
-                        {errors.hostname?.message}
-                    </p>
+                    {errors.hostname && (
+                        <p className="mt-2 text-sm text-red-400">
+                            {errors.hostname.message}
+                        </p>
+                    )}
                 </div>
 
-                <button className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700">
-                    Create Room
+                <button
+                    type="submit"
+                    className="w-full rounded-full bg-[#57F287] py-4 text-lg font-bold text-black transition-all duration-300 hover:scale-[1.02] hover:bg-[#45df72]"
+                >
+                    Create New Room
                 </button>
+
+                <p className="text-center text-sm italic text-gray-400">
+                    Generate a secure link to share with your team.
+                </p>
+
             </form>
 
         </div>
     );
+
 }
 
 export default CreateRoom;

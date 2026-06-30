@@ -1,92 +1,42 @@
-import Document from "../models/Document.js";
+import documentModel from "../models/Document.js";
+import ApiError from "../utils/ApiError.js";
 
-/**
- * Document Repository
- * --------------------
- * Repository layer = ONLY layer allowed to run Mongoose queries for Document.
- * Services must never import the Document model directly — they call these
- * functions instead. This keeps persistence logic swappable/testable.
- */
+export const createDocument = async (roomId) => {
 
-/**
- * Create a new document for a room.
- * Called automatically when a room is created (Domain A triggers this via
- * documentService, never directly).
- */
-const createDocument = async ({ roomId, language = "javascript" }) => {
-  const document = await Document.create({
-    roomId,
-    content: "",
-    language,
-    version: 0,
-    lastModified: Date.now(),
-  });
-  return document;
-};
+    if (!roomId) {
+        throw new ApiError(400, "Room id is required");
+    }
 
-/**
- * Fetch the latest document for a room.
- * Used when a user joins a room and needs the current shared state.
- */
-const findByRoomId = async (roomId) => {
-  return Document.findOne({ roomId }).lean();
-};
+    const document = await documentModel.create({
+        roomId,
+        content: "",
+    });
 
-/**
- * Fetch the RAW (non-lean) document for a room.
- * Needed internally when we intend to mutate + save it (e.g. applying a delta),
- * since .lean() returns plain objects with no .save() method.
- */
-const findRawByRoomId = async (roomId) => {
-  return Document.findOne({ roomId });
-};
+    return document;
+}
 
-/**
- * Persist new content + bump version/lastModified after a delta is applied.
- * This is the ONLY function that writes document content to MongoDB.
- */
-const updateContent = async (roomId, { content, lastModified, version }) => {
-  return Document.findOneAndUpdate(
-    { roomId },
-    {
-      $set: {
-        content,
-        lastModified,
-        version,
-      },
-    },
-    { new: true },
-  ).lean();
-};
+export const getDocument = async (roomId) => {
 
-/**
- * Replace document content directly (used by PATCH /api/document/:roomId
- * for manual saves / language change / full overwrite scenarios).
- */
-const replaceDocument = async (roomId, { content, language }) => {
-  const update = { lastModified: Date.now() };
-  if (content !== undefined) update.content = content;
-  if (language !== undefined) update.language = language;
+    const document = await documentModel.findOne({ roomId });
 
-  return Document.findOneAndUpdate(
-    { roomId },
-    { $set: update, $inc: { version: 1 } },
-    { new: true },
-  ).lean();
-};
+    if (!document) {
+        throw new ApiError(404, "Document not found");
+    }
 
-/**
- * Delete a document (cleanup helper, e.g. when a room is destroyed).
- */
-const deleteByRoomId = async (roomId) => {
-  return Document.deleteOne({ roomId });
-};
+    return document;
+}
 
-export default {
-  createDocument,
-  findByRoomId,
-  findRawByRoomId,
-  updateContent,
-  replaceDocument,
-  deleteByRoomId,
+export const patchDocument = async ({ roomId, content }) => {
+
+    const document = await documentModel.findOneAndUpdate(
+        { roomId },
+        { content },
+        { new: true }
+    );
+
+    if (!document) {
+        throw new ApiError(404, "Document not found");
+    }
+
+    return document;
 };

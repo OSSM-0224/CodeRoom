@@ -6,6 +6,7 @@ import {
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
+import { createDocument } from "../repositories/document.repository.js";
 
 /**
  * ----------------------------------------
@@ -20,11 +21,22 @@ export const roomCreateController = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields are required");
   }
 
-  // Call Service Layer
-  const room = await createRoomService({
-    name,
-    hostname,
-  });
+    const room = await createRoom({ name, hostname });
+
+
+    const document = await createDocument(room._id);
+
+    if (!document) {
+        throw new ApiError(500, "Document not created");
+    }
+
+    return res.status(201).json(
+        new ApiResponse(
+            201,
+            "Room created successfully",
+            room
+        )
+    );
 
   return res
     .status(201)
@@ -40,9 +52,7 @@ export const roomCreateController = asyncHandler(async (req, res) => {
 export const roomJoinController = asyncHandler(async (req, res) => {
   const { roomCode, username } = req.body;
 
-  if (!roomCode || !username) {
-    throw new ApiError(400, "All fields are required");
-  }
+    const { roomCode, username, socketId } = req.body;
 
   // Call Service Layer
   const room = await joinRoomService({
@@ -50,7 +60,11 @@ export const roomJoinController = asyncHandler(async (req, res) => {
     username,
   });
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, room, "Room joined successfully"));
+    const room = await joinRoom({ roomCode, username, socketId });
+
+
+    return res.status(200).json(
+        new ApiResponse(200, "Room joined successfully", room)
+    );
+
 });
