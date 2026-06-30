@@ -1,42 +1,32 @@
 import documentModel from "../models/Document.js";
-import ApiError from "../utils/ApiError.js";
 
-export const createDocument = async (roomId) => {
-
-    if (!roomId) {
-        throw new ApiError(400, "Room id is required");
-    }
-
-    const document = await documentModel.create({
+const createDocument = async ({ roomId, language = "javascript" }) => {
+    return await documentModel.create({
         roomId,
+        language,
         content: "",
     });
+};
 
-    return document;
-}
+const findByRoomId = async (roomId) => {
+    return await documentModel.findOne({ roomId });
+};
 
-export const getDocument = async (roomId) => {
-
-    const document = await documentModel.findOne({ roomId });
-
-    if (!document) {
-        throw new ApiError(404, "Document not found");
-    }
-
-    return document;
-}
-
-export const patchDocument = async ({ roomId, content }) => {
-
-    const document = await documentModel.findOneAndUpdate(
+const replaceDocument = async (roomId, { content, language }) => {
+    return await documentModel.findOneAndUpdate(
         { roomId },
-        { content },
-        { new: true }
+        {
+            content,
+            language,
+        },
+        {
+            new: true,
+        }
     );
+};
 
-    if (!document) {
-        throw new ApiError(404, "Document not found");
-    }
-
-    return document;
+export default {
+    createDocument,
+    findByRoomId,
+    replaceDocument,
 };

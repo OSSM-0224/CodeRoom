@@ -1,41 +1,146 @@
 import { Editor } from "@monaco-editor/react";
-import { FileCode2, Plus, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import {
+    FileCode2,
+    Plus,
+    ChevronDown,
+    X,
+} from "lucide-react";
+import { useEffect, useState } from "react";
 
 function CodeEditor({ code, setCode }) {
-    const [language, setLanguage] = useState("javascript");
 
+    const [files, setFiles] = useState([
+        {
+            id: Date.now(),
+            name: "index.js",
+            language: "javascript",
+            content: code || "",
+        },
+    ]);
 
+    const [activeFile, setActiveFile] = useState(files[0].id);
+
+    const currentFile = files.find((file) => file.id === activeFile);
+
+    useEffect(() => {
+        setFiles((prev) =>
+            prev.map((file) =>
+                file.id === activeFile
+                    ? { ...file, content: code }
+                    : file
+            )
+        );
+    }, [code]);
+
+    const addFile = () => {
+
+        const newFile = {
+            id: Date.now(),
+            name: `file${files.length + 1}.js`,
+            language: "javascript",
+            content: "",
+        };
+
+        setFiles((prev) => [...prev, newFile]);
+        setActiveFile(newFile.id);
+        setCode("");
+    };
+
+    const removeFile = (id) => {
+
+        if (files.length === 1) return;
+
+        const updatedFiles = files.filter((file) => file.id !== id);
+
+        setFiles(updatedFiles);
+
+        if (activeFile === id) {
+            setActiveFile(updatedFiles[0].id);
+            setCode(updatedFiles[0].content);
+        }
+    };
+
+    const changeFile = (file) => {
+
+        setActiveFile(file.id);
+        setCode(file.content);
+    };
+
+    const updateContent = (value) => {
+
+        setCode(value || "");
+
+        setFiles((prev) =>
+            prev.map((file) =>
+                file.id === activeFile
+                    ? { ...file, content: value || "" }
+                    : file
+            )
+        );
+    };
+
+    const changeLanguage = (lang) => {
+
+        setFiles((prev) =>
+            prev.map((file) =>
+                file.id === activeFile
+                    ? {
+                        ...file,
+                        language: lang,
+                    }
+                    : file
+            )
+        );
+    };
 
     return (
         <div className="flex h-full flex-1 flex-col overflow-hidden rounded-xl border border-slate-700 bg-[#111827]">
 
-            {/* Top Tabs */}
+            {/* Top */}
 
             <div className="flex items-center justify-between border-b border-slate-700 bg-[#1B2433] px-4 py-2">
 
-                <div className="flex items-center gap-2">
+                {/* Tabs */}
 
-                    <button className="flex items-center gap-2 rounded-lg border-b-2 border-[#57F287] bg-[#111827] px-4 py-2 text-sm text-white">
+                <div className="flex items-center gap-2 overflow-x-auto">
 
-                        <FileCode2 className="h-4 w-4 text-[#57F287]" />
+                    {files.map((file) => (
 
-                        index.js
+                        <button
+                            key={file.id}
+                            onClick={() => changeFile(file)}
+                            className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm transition
+                                ${activeFile === file.id
+                                    ? "border-b-2 border-[#57F287] bg-[#111827] text-white"
+                                    : "text-gray-400 hover:bg-slate-700"
+                                }`}
+                        >
 
-                    </button>
+                            <FileCode2 className="h-4 w-4 text-[#57F287]" />
 
-                    <button className="rounded-lg px-3 py-2 text-sm text-gray-400 hover:bg-slate-700">
-                        app.js
-                    </button>
+                            {file.name}
 
-                    <button className="rounded-lg px-3 py-2 text-sm text-gray-400 hover:bg-slate-700">
-                        styles.css
-                    </button>
+                            {files.length > 1 && (
 
-                    <button className="rounded-lg p-2 hover:bg-slate-700">
+                                <X
+                                    className="h-4 w-4 text-red-400 hover:text-red-500"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        removeFile(file.id);
+                                    }}
+                                />
 
+                            )}
+
+                        </button>
+
+                    ))}
+
+                    <button
+                        onClick={addFile}
+                        className="rounded-lg p-2 hover:bg-slate-700"
+                    >
                         <Plus className="h-4 w-4 text-gray-400" />
-
                     </button>
 
                 </div>
@@ -51,15 +156,32 @@ function CodeEditor({ code, setCode }) {
                         </span>
 
                         <select
-                            value={language}
-                            onChange={(e) => setLanguage(e.target.value)}
+                            value={currentFile.language}
+                            onChange={(e) =>
+                                changeLanguage(e.target.value)
+                            }
                             className="bg-transparent text-sm text-white outline-none"
                         >
-                            <option value="javascript">JavaScript</option>
-                            <option value="typescript">TypeScript</option>
-                            <option value="python">Python</option>
-                            <option value="cpp">C++</option>
-                            <option value="java">Java</option>
+                            <option value="javascript">
+                                JavaScript
+                            </option>
+
+                            <option value="typescript">
+                                TypeScript
+                            </option>
+
+                            <option value="python">
+                                Python
+                            </option>
+
+                            <option value="cpp">
+                                C++
+                            </option>
+
+                            <option value="java">
+                                Java
+                            </option>
+
                         </select>
 
                         <ChevronDown className="h-4 w-4 text-gray-400" />
@@ -68,17 +190,7 @@ function CodeEditor({ code, setCode }) {
 
                     <div className="flex items-center gap-2">
 
-                        <span className="text-sm text-gray-400">
 
-                            Auto Save
-
-                        </span>
-
-                        <div className="h-5 w-10 rounded-full bg-green-500">
-
-                            <div className="ml-auto mt-[2px] mr-[2px] h-4 w-4 rounded-full bg-white" />
-
-                        </div>
 
                     </div>
 
@@ -92,10 +204,10 @@ function CodeEditor({ code, setCode }) {
 
                 <Editor
                     height="100%"
-                    language={language}
-                    value={code}
-                    onChange={(value) => setCode(value || "")}
                     theme="vs-dark"
+                    language={currentFile.language}
+                    value={currentFile.content}
+                    onChange={updateContent}
                     options={{
                         fontSize: 15,
                         minimap: {

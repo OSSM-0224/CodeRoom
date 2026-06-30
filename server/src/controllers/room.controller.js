@@ -1,12 +1,15 @@
 import {
   createRoomService,
+  getParticipants,
   joinRoomService,
 } from "../services/room.service.js";
 
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
-import { createDocument } from "../repositories/document.repository.js";
+import documentService from "../services/document.service.js";
+import roomModel from "../models/Room.js";
+import participantModel from "../models/Participant.js";
 
 /**
  * ----------------------------------------
@@ -20,27 +23,22 @@ export const roomCreateController = asyncHandler(async (req, res) => {
   if (!name || !hostname) {
     throw new ApiError(400, "All fields are required");
   }
+  const room = await createRoomService({
+    name,
+    hostname,
+  });
 
-    const room = await createRoom({ name, hostname });
+  await documentService.createDocumentForRoom(room._id);
 
 
-    const document = await createDocument(room._id);
+  return res.status(201).json(
+    new ApiResponse(
+      201,
+      "Room created successfully",
+      room
+    )
+  );
 
-    if (!document) {
-        throw new ApiError(500, "Document not created");
-    }
-
-    return res.status(201).json(
-        new ApiResponse(
-            201,
-            "Room created successfully",
-            room
-        )
-    );
-
-  return res
-    .status(201)
-    .json(new ApiResponse(201, room, "Room created successfully"));
 });
 
 /**
@@ -52,7 +50,6 @@ export const roomCreateController = asyncHandler(async (req, res) => {
 export const roomJoinController = asyncHandler(async (req, res) => {
   const { roomCode, username } = req.body;
 
-    const { roomCode, username, socketId } = req.body;
 
   // Call Service Layer
   const room = await joinRoomService({
@@ -60,11 +57,76 @@ export const roomJoinController = asyncHandler(async (req, res) => {
     username,
   });
 
-    const room = await joinRoom({ roomCode, username, socketId });
 
 
-    return res.status(200).json(
-        new ApiResponse(200, "Room joined successfully", room)
-    );
+  return res.status(200).json(
+    new ApiResponse(200, "Room joined successfully", room)
+  );
 
+});
+
+
+// controllers/participant.controller.js
+
+
+export const getParticipantsController = asyncHandler(async (req, res) => {
+
+  const { roomId } = req.params;
+
+  const participants = await getParticipants(roomId);
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      "Participants fetched successfully",
+      participants
+    )
+  );
+});
+
+
+export const getRoomController = asyncHandler(async (req, res) => {
+
+  const { roomId } = req.params;
+
+  const room = await roomModel.findById(roomId);
+
+  if (!room) {
+    throw new ApiError(404, "Room not found");
+  }
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      "Room fetched successfully",
+      room
+    )
+  );
+
+});
+
+
+export const leaveRoomController = asyncHandler(async (req, res) => {
+
+  console.log(req.body);
+
+  const { username } = req.body;
+
+
+  const participant = await participantModel.findOneAndDelete({
+    username,
+  });
+
+  console.log(participant);
+
+  if (!participant) {
+    throw new ApiError(404, "Participant not found");
+  }
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      "Left room successfully"
+    )
+  );
 });
