@@ -25,5 +25,4 @@ const startServer = async () => {
     console.error(err);
   }
 };
-initializeSocket();
 startServer();
