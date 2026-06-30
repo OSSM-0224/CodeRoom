@@ -1,6 +1,6 @@
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
-import copyToClipboard from "../../utils/copyToClipboard.js";
+import {copyToClipboard} from "../../utils/copyToClipboard.js";
 
 function CopyButton({ value, label = "Copy", className = "" }) {
   const [copied, setCopied] = useState(false);
