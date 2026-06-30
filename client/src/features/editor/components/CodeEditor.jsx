@@ -1,21 +1,17 @@
 import { Editor } from "@monaco-editor/react";
 import { ChevronDown, FileCode2, Plus, X } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 function CodeEditor({ code, setCode, language = "javascript", onLanguageChange }) {
   const [files, setFiles] = useState([
-    { id: Date.now(), name: "index.js", language, content: code || "" },
+    { id: "file-1", name: "index.js", language, content: code || "" },
   ]);
-  const [activeFile, setActiveFile] = useState(files[0].id);
+  const [activeFile, setActiveFile] = useState("file-1");
 
   const currentFile = useMemo(() => files.find((file) => file.id === activeFile) || files[0], [activeFile, files]);
 
-  useEffect(() => {
-    setFiles((prev) => prev.map((file) => (file.id === activeFile ? { ...file, content: code ?? "" } : file)));
-  }, [activeFile, code]);
-
   const addFile = () => {
-    const newFile = { id: Date.now(), name: `file${files.length + 1}.js`, language: "javascript", content: "" };
+    const newFile = { id: `file-${files.length + 1}`, name: `file${files.length + 1}.js`, language: "javascript", content: "" };
     setFiles((prev) => [...prev, newFile]);
     setActiveFile(newFile.id);
     setCode("");
