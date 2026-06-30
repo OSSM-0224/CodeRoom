@@ -1,11 +1,12 @@
-import { Router } from 'express';
-import { roomCreateController, roomJoinController } from '../controllers/room.controller.js';
+import { Router } from "express";
+import {
+  roomCreateController,
+  roomJoinController,
+} from "../controllers/room.controller.js";
 
 const roomRouter = Router();
 
+roomRouter.post("/createRoom", roomCreateController);
+roomRouter.post("/joinRoom", roomJoinController);
 
-roomRouter.post("/createroom", roomCreateController)
-roomRouter.post("/joinroom", roomJoinController)
-
-
-export default roomRouter
+export default roomRouter;
