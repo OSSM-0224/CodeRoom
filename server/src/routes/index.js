@@ -1,14 +1,10 @@
 import { Router } from "express";
 import roomRouter from "./room.routes.js";
+import documentRoutes from "./document.routes.js";
+import editorRoutes from "./editor.routes.js";
 const router = Router();
-router.get("/", (req, res) => {
-  res.json({
-    success: true,
-    message: "API Running",
-  });
-});
-
-router.use("/room", roomRouter)
-
+router.use("/room", roomRouter);
+router.use("/document", documentRoutes);
+router.use("/editor", editorRoutes);
 
 export default router;
