@@ -3,11 +3,8 @@ import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
 import morgan from "morgan";
-
 import env from "./config/env.config.js";
-
 import routes from "./routes/index.js";
-
 import errorHandler from "./middlewares/error.middleware.js";
 
 const app = express();

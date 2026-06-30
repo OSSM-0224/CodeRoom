@@ -1,13 +1,20 @@
+import { useNavigate } from "react-router";
 import { useCreateRoomHook } from "../hooks/useRoom";
 
 
 function CreateRoom() {
-
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
         errors,
-        createRoomData, } = useCreateRoomHook()
+        createRoomData, } = useCreateRoomHook();
+
+    const handleSubmitRoom = async (data)=>{
+        const room = await createRoomData(data);
+        console.log(room)
+        navigate(`editor/${room._id}`);
+    }
 
     return (
         <div className="w-full max-w-md rounded-3xl border border-slate-700 bg-[#1B2433] p-8 shadow-2xl">
@@ -29,7 +36,7 @@ function CreateRoom() {
             </div>
 
             <form
-                onSubmit={handleSubmit(createRoomData)}
+                onSubmit={handleSubmit(handleSubmitRoom)}
                 className="space-y-6"
             >
 

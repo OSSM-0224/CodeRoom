@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useRoomApi } from "../services/room.api";
+import { useNavigate } from "react-router";
 
 
 
@@ -9,8 +10,9 @@ export const useCreateRoomHook = () => {
     const { createRoomApi } = useRoomApi();
 
     const createRoomData = async (data) => {
-        await createRoomApi(data);
+        const room = await createRoomApi(data);
         reset();
+        return room;
     };
 
     return {
