@@ -10,8 +10,9 @@ export const useCreateRoomHook = () => {
     const { createRoomApi } = useRoomApi();
 
     const createRoomData = async (data) => {
-        await createRoomApi(data);
+        const room = await createRoomApi(data);
         reset();
+        return room;
     };
 
     return {

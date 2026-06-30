@@ -10,8 +10,9 @@ export const useRoomApi = () => {
     const { getDocumentData } = useEditorApi()
 
     const createRoomApi = async (data) => {
-        let resp = await axiosInstace.post("/room/createRoom", data)
-        return resp
+        let resp = await axiosInstace.post("/room/createRoom", data);
+        console.log(resp);
+        return resp.data.data;
     };
 
     const joinRoomApi = async (data) => {

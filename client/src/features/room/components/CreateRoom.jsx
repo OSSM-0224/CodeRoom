@@ -10,8 +10,10 @@ function CreateRoom() {
         errors,
         createRoomData, } = useCreateRoomHook();
 
-    const handleSubmitRoom = (data)=>{
-        navigate(`editor/${data._id}`);
+    const handleSubmitRoom = async (data)=>{
+        const room = await createRoomData(data);
+        console.log(room)
+        navigate(`editor/${room._id}`);
     }
 
     return (
@@ -34,7 +36,7 @@ function CreateRoom() {
             </div>
 
             <form
-                onSubmit={handleSubmitRoom(handleSubmit(createRoomData))}
+                onSubmit={handleSubmit(handleSubmitRoom)}
                 className="space-y-6"
             >
 
