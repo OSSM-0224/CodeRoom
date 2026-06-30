@@ -1,12 +1,12 @@
 import { axiosInstace } from "../../../services/axios";
 
 export const getDocument = async (roomId) => {
-  const { data } = await axiosInstace.get(/document/);
+  const { data } = await axiosInstace.get(`/document/${roomId}`);
   return data?.data ?? null;
 };
 
 export const saveDocument = async (roomId, code, language) => {
-  const { data } = await axiosInstace.patch(/document/, {
+  const { data } = await axiosInstace.patch(`/document/${roomId}`, {
     content: code,
     language,
   });
@@ -14,12 +14,12 @@ export const saveDocument = async (roomId, code, language) => {
 };
 
 export const getParticipants = async (roomId) => {
-  const { data } = await axiosInstace.get(/room/);
+  const { data } = await axiosInstace.get(`/room/${roomId}`);
   return data?.data ?? [];
 };
 
 export const getRoomData = async (roomId) => {
-  const { data } = await axiosInstace.get(/room/user/);
+  const { data } = await axiosInstace.get(`/room/user/${roomId}`);
   return data?.data ?? null;
 };
 
