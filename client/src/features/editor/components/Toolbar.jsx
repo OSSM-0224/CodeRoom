@@ -6,10 +6,12 @@ import {
     Wifi,
 } from "lucide-react";
 
-
-function Toolbar({ roomCode, handleLeaveRoom }) {
-
-
+function Toolbar({
+    roomCode,
+    handleLeaveRoom,
+    participants,
+    connected,
+}) {
 
     return (
         <header className="flex h-16 items-center justify-between border-b border-slate-700 bg-[#111827] px-6">
@@ -50,17 +52,35 @@ function Toolbar({ roomCode, handleLeaveRoom }) {
             </div>
 
             {/* Right */}
-
             <div className="flex items-center gap-3">
 
-                <div className="hidden items-center gap-2 rounded-full bg-green-500/10 px-3 py-1 md:flex">
+                {/* Connection Status */}
+                <div
+                    className={`hidden items-center gap-2 rounded-full px-3 py-1 md:flex ${connected
+                        ? "bg-green-500/10"
+                        : "bg-red-500/10"
+                        }`}
+                >
+                    <Wifi
+                        className={`h-4 w-4 ${connected
+                            ? "text-green-400"
+                            : "text-red-400"
+                            }`}
+                    />
 
-                    <Wifi className="h-4 w-4 text-green-400" />
-
-                    <span className="text-xs font-medium text-green-400">
-                        Connected
+                    <span
+                        className={`text-xs font-medium ${connected
+                            ? "text-green-400"
+                            : "text-red-400"
+                            }`}
+                    >
+                        {connected ? "Connected" : "Offline"}
                     </span>
+                </div>
 
+                {/* Participants Count */}
+                <div className="hidden rounded-full bg-slate-700 px-3 py-1 text-xs text-white md:block">
+                    👥 {participants.length} Participants
                 </div>
 
                 <button className="rounded-lg border border-slate-600 p-2 transition hover:border-[#57F287] hover:text-[#57F287]">
@@ -71,13 +91,16 @@ function Toolbar({ roomCode, handleLeaveRoom }) {
                     <Share2 className="h-5 w-5" />
                 </button>
 
-                <button onClick={() => handleLeaveRoom()} className="rounded-lg border border-red-500/50 p-2 text-red-400 transition hover:bg-red-500 hover:text-white">
+                <button
+                    onClick={handleLeaveRoom}
+                    className="rounded-lg border border-red-500/50 p-2 text-red-400 transition hover:bg-red-500 hover:text-white"
+                >
                     <LogOut className="h-5 w-5" />
                 </button>
 
                 <img
                     src="https://i.pravatar.cc/100"
-                    alt=""
+                    alt="Profile"
                     className="h-10 w-10 rounded-full border-2 border-[#57F287]"
                 />
 

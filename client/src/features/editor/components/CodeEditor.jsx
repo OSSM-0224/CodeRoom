@@ -5,9 +5,14 @@ import {
     ChevronDown,
     X,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { socket } from "../../../app/socket";
 
-function CodeEditor({ code, setCode }) {
+function CodeEditor({ code, setCode, roomId, username }) {
+
+    const [typingTimeout, setTypingTimeout] = useState(null);
+
+    const typingTimeoutRef = useRef(null);
 
     const [files, setFiles] = useState([
         {
@@ -66,17 +71,33 @@ function CodeEditor({ code, setCode }) {
         setCode(file.content);
     };
 
-    const updateContent = (value) => {
+    const updateContent = (value = "") => {
 
-        setCode(value || "");
+        setCode(value);
 
-        setFiles((prev) =>
-            prev.map((file) =>
+        setFiles(prev =>
+            prev.map(file =>
                 file.id === activeFile
-                    ? { ...file, content: value || "" }
+                    ? { ...file, content: value }
                     : file
             )
         );
+
+        socket.emit("USER_TYPING", {
+            roomId,
+            username,
+        });
+
+        if (typingTimeoutRef.current) {
+            clearTimeout(typingTimeoutRef.current);
+        }
+
+        typingTimeoutRef.current = setTimeout(() => {
+            socket.emit("USER_STOPPED_TYPING", {
+                roomId,
+                username,
+            });
+        }, 1000);
     };
 
     const changeLanguage = (lang) => {

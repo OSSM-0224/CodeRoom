@@ -3,14 +3,18 @@ import app from "./app.js"
 import env from "./config/env.config.js";
 import connectMongoDB from "./database/mongodb.js";
 import { Server } from "socket.io";
+import initializeSocket from "./socket/index.js";
 
 const server = http.createServer(app);
 export const io = new Server(server, {
   cors: {
     origin: env.CLIENT_URL,
     methods: ["GET", "POST"],
+    credentials: true,
   },
 });
+
+initializeSocket(io);
 const startServer = async () => {
   try {
     await connectMongoDB();

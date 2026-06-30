@@ -1,13 +1,18 @@
 import {
-    Code2,
     Users,
     Wifi,
     Clock3,
-    CheckCircle2,
     Save,
+    Pencil,
 } from "lucide-react";
 
-function StatusBar({ handleSave, participants }) {
+function StatusBar({
+    handleSave,
+    participants,
+    connected,
+    typingUser,
+}) {
+
     return (
         <footer className="flex h-10 items-center justify-between border-t border-slate-700 bg-[#0F172A] px-4 text-xs text-gray-300">
 
@@ -33,17 +38,34 @@ function StatusBar({ handleSave, participants }) {
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <Wifi className="h-4 w-4 text-green-400" />
-                    <span className="font-medium text-green-400">
-                        Connected
+                    <Wifi
+                        className={`h-4 w-4 ${connected
+                            ? "text-green-400"
+                            : "text-red-400"
+                            }`}
+                    />
+
+                    <span
+                        className={`font-medium ${connected
+                            ? "text-green-400"
+                            : "text-red-400"
+                            }`}
+                    >
+                        {connected ? "Connected" : "Offline"}
                     </span>
                 </div>
 
             </div>
 
             {/* Right */}
-
             <div className="flex items-center gap-6">
+
+                {typingUser && (
+                    <div className="flex items-center gap-2 text-[#57F287]">
+                        <Pencil className="h-4 w-4" />
+                        <span>{typingUser} is typing...</span>
+                    </div>
+                )}
 
                 <div className="flex items-center gap-2">
                     <Users className="h-4 w-4 text-blue-400" />
@@ -56,9 +78,20 @@ function StatusBar({ handleSave, participants }) {
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <Wifi className="h-4 w-4 text-green-400" />
-                    <span className="font-medium text-green-400">
-                        Connected
+                    <Wifi
+                        className={`h-4 w-4 ${connected
+                            ? "text-green-400"
+                            : "text-red-400"
+                            }`}
+                    />
+
+                    <span
+                        className={`font-medium ${connected
+                            ? "text-green-400"
+                            : "text-red-400"
+                            }`}
+                    >
+                        {connected ? "Connected" : "Offline"}
                     </span>
                 </div>
 
